@@ -16,6 +16,22 @@ class UserSerializer(serializers.ModelSerializer):
             "my_referral_code",
             "created_at",
         ]
+        extra_kwargs = {
+            "email": {
+                "required": True,
+                "error_messages": {"required": "This field is required."},
+            },
+            "first_name": {
+                "required": True,
+                "error_messages": {"required": "This field is required."},
+            },
+            "last_name": {
+                "required": True,
+                "error_messages": {"required": "This field is required."},
+            },
+            "referral_code": {"required": False},
+            "my_referral_code": {"required": False},
+        }
 
 
 class ReferralSerializer(serializers.ModelSerializer):
