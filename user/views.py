@@ -29,6 +29,7 @@ def generate_referral_code():
         referral_code = "".join(random.choices(characters, k=10))
     return referral_code
 
+# register view
 
 @api_view(["POST"])
 def register(request):
@@ -40,6 +41,7 @@ def register(request):
         user.set_password(request.data["password"])
         referral_code = request.data.get("referral_code")
         user.save()
+        # when the referral code is inputted saves the referral info
         if referral_code:
             try:
                 referring_user = User.objects.get(
@@ -60,6 +62,8 @@ def register(request):
         )
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+# login view 
+# login to get the access token for the authorization
 
 @api_view(["POST"])
 def login(request):
@@ -81,7 +85,8 @@ def login(request):
         }
     )
 
-
+# user details view
+# views the user details of the current logged in user using authorization token
 @api_view(["GET"])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
@@ -96,7 +101,8 @@ def user_details(request):
     }
     return Response(user_details)
 
-
+# referral list view
+# shows the referral details of the current logged in user using authorization token
 @api_view(["GET"])
 @authentication_classes([SessionAuthentication, TokenAuthentication])
 @permission_classes([IsAuthenticated])
